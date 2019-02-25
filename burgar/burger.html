@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Mmm Buurgeeer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="css/normalize.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <p id="output"></p>
+
+	<script>
+		var output = document.getElementById('output');
+
+		function Burger(topBun, middleBun, bottomBun, pattyType, pattyAmount, vegetables, sauces, hasBacon, hasEgg, hasGuacamole)
+		{
+			this.bun = {
+				'top' :  topBun,
+				'middle' : middleBun,
+                'hasMiddleBun' : Boolean(middleBun) && (pattyAmount>1),
+				'bottom' : bottomBun
+			};
+			this.patty = {
+				'type' : pattyType,
+				'amount' : pattyAmount,
+			};
+			this.vegetables = vegetables;
+			this.sauces = sauces;
+			this.hasBacon = hasBacon;
+			this.hasEgg = hasEgg;
+			this.hasGuacamole = hasGuacamole
+
+			this.order = function(){
+                var pattyString;
+                switch(this.patty.amount){
+                    case 0:
+                    this.pattyString = 'no';
+                    break;
+                    case 1:
+                    this.pattyString = 'a single';
+                    break;
+                    case 2:
+                    this.pattyString = 'double';
+                    break;
+                    case 3:
+                    this.pattyString = 'triple';
+                    break;
+                    case 4:
+                    this.pattyString = 'quadruple';
+                    break;
+                    default:
+                    this.pattyString = this.patty.amount;
+                }
+				var toppings = '';
+				this.vegetables.forEach(function(item) {
+					toppings += ', ' + item;
+				}, this)
+				this.sauces.forEach(function(item) {
+					toppings += ', ' + item;
+				}, this)
+				toppings += hasBacon? ', bacon':'';
+				toppings += hasEgg? ', egg':'';
+				toppings += hasGuacamole? ', guacamole':'';
+                if(toppings ===''){
+                    toppings = ' nothing'
+                }
+				output.textContent = 'Your burger will have ' + this.pattyString + ' ' +
+									 this.patty.type + (this.patty.amount>1?' patties': ' patty') + ' on a ' + 
+									 this.bun.bottom + ' bun' + 
+									 (this.bun.bottom !== this.bun.top? ' with a ' + this.bun.top + ' bun on top' + (this.bun.hasMiddleBun?' and a ':''):
+                                     (this.bun.hasMiddleBun?' with a ':''))  +
+									 (this.bun.hasMiddleBun?this.bun.middle + ' bun in the middle.':'.') +
+									 ' Its topped with' + toppings + '.';
+			}
+		}
+		var myBurger = new Burger('sesame seed', 'brioche', 'chiabata', 'bison', 4, ['lettuce', 'tomato', 'grilled onions'], ['mango chutney', 'garlic mayonaise'], false, true, true);
+		//var testBurger = new Burger('sesame seed', 'brioche', 'sesame seed', 'beef', 1, [], [], false, false, false);
+        myBurger.order();
+        //testBurger.order();
+		</script>
+	</body>
+</html>
